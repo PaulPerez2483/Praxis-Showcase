@@ -1,0 +1,65 @@
+{
+    "articles": [
+    {
+    "id": 0,
+    "date": "September 15, 2019",
+    "image": "demo.jpg",
+    "category_id": "category_a",
+    "categories": "General, Employee Development, Recruiting and Selection",
+    "link": "retaining-millennials",
+    "title": "Tips on Attracting, Recruiting and Retaining Millennials",
+    "summary": "With the rise of millennials, workplace demographics are shifting rapidly. To understand them is to have a window into the future and the competitive edge."
+    },
+    {
+    "id": 1,
+    "date": "September 9, 2019",
+    "image": "demo.jpg",
+    "category_id": "category_a",
+    "categories": "General, Employee Development, Recruiting and Selection",
+    "link": "healthcare-retention",
+    "title": "Underlying Illness: Health Care's Retention Problem and How to Cure It",
+    "summary": "The health care industry is going through a retention crisis. We diagnose the problem and write up the prescription for long-term workplace success."
+    },
+
+    {
+    "id": 2,
+    "date": "August 1, 2019",
+    "image": "demo.jpg",
+    "category_id": "category_b",
+    "categories": "Assessment, Recruiting & Selection",
+    "link": "employment-assessment",
+    "title": "Are Pre-Employment Assessments the Key to a Long-term Hire?",
+    "summary": "Retention issues are often related to the hiring process. Find out how pre-employment assessments can help you hire people who excel in the long run."
+    },
+    {
+    "id": 3,
+    "date": "July 10, 2019",
+    "image": "demo.jpg",
+    "category_id": "category_b",
+    "categories": "Coaching and Mentoring, Employee Development",
+    "link": "coaching-skills",
+    "title": "Less Managing and More Coaching",
+    "summary": "When managing employees, a coaching mindset can drive your team to success. Here are some strategic coaching tips to consider for your manager's playbook."
+    },
+    {
+    "id": 4,
+    "date": "May 10, 2019",
+    "image": "demo.jpg",
+    "category_id": "category_a",
+    "categories": "Assessment, Coaching and Mentoring, Employee Development, General, Recruiting & Selection",
+    "link": "hiring-problem-solvers",
+    "title": "How to Recognize and Hire Problem Solvers",
+    "summary": "Problem-solving is a valuable trait for nearly all candidates to have. Here are some tips on how to evaluate and assess problem-solving skills."
+    },
+    {
+    "id": 5,
+    "date": "April 24, 2019",
+    "image": "demo.jpg",
+    "category_id": "category_c",
+    "categories": "Coaching and Mentoring, Employee Development",
+    "link": "hiring-dream-teams",
+    "title": "Five Key Hires Every Dream Team Needs",
+    "summary": "It takes all kinds of personalities to make an organizational team work well. Here are five types of team players that might get overlooked when recruiting."
+    }
+    ]
+    }
