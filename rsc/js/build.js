@@ -1,3 +1,11 @@
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
 console.log('here');
 var articles, related;
 var url = window.location.href;
@@ -6,7 +14,7 @@ var relatedUrl = "".concat(url, "rsc/api/related_db.json");
 var e = document.getElementById('categories');
 var readinessArticles = document.getElementById('job-readiness-articles');
 
-var realFetch = function realFetch(apiCompanies, apiProducts) {
+var goFetch = function goFetch(apiCompanies, apiProducts) {
   Promise.all([fetch(apiProducts), fetch(apiCompanies)]).then(function (response) {
     return Promise.all(response.map(function (result) {
       return result.json();
@@ -20,17 +28,66 @@ var realFetch = function realFetch(apiCompanies, apiProducts) {
   });
 };
 
-var renderHTML = function renderHTML() {
-  var html = articles.map(function (article) {
+var renderHTML = function renderHTML(data) {
+  var html = data.map(function (article) {
     return "<div class=\"article-holder\">\n                    <div class=\"img\">\n                        <img src=\"./rsc/images/".concat(article.image, "\" alt=\"").concat(article.title, "\" >\n                    </div>\n                    <div class=\"category\">\n                        <p>").concat(article.categories, "</p>\n                    </div>\n                    <div class=\"article-date\">\n                        ").concat(article.date, "\n                    </div>\n                    <div class=\"desc\">\n                        <h2><a href=\"").concat(article.link, "\">").concat(article.title, "</a>\n                        </h2>\n                        <p>").concat(article.summary, "</p>\n                    </div>\n\n                </div>");
   }).join('');
   readinessArticles.innerHTML = html;
 };
 
-e.addEventListener('change', function () {
+e.addEventListener('change', function (event) {
   var e = document.getElementById("categories");
-  var result = e.options[e.selectedIndex].value;
-  console.log(articles, related);
-  console.log(result);
+  var user = e.options[e.selectedIndex].value; // console.log(articles)
+  // console.log(related)
+  // console.dir(event.target)
+
+  var processed = articles.filter(function (article) {
+    return article.category_id.includes(user);
+  });
+  processed.relation = related.filter(function (key) {
+    return key.article_id.includes(user);
+  }); // console.log(processed)
+  // console.log(user)
+
+  if (user === 'all') {
+    // console.log(processed)
+    renderHTML(articles);
+    updatePanel(processed.relation, user);
+  } else {
+    var articleData = processed.filter(function (article) {
+      return article.category_id.includes(user);
+    });
+    console.log(articleData); // console.log(processed.relation)
+
+    renderHTML(articleData);
+    updatePanel(processed.relation, user);
+  }
 });
-realFetch(articlesUrl, relatedUrl);
+
+var updatePanel = function updatePanel(data, pick) {
+  // if(pick !== 'all') {
+  var knowPanel = document.getElementById('know-panel');
+  var aboutPanel = document.getElementById('about-panel');
+
+  var knowPanelElements = _toConsumableArray(knowPanel.children[0].children);
+
+  var aboutPanelElements = _toConsumableArray(aboutPanel.children[0].children);
+
+  if (pick === 'all') {
+    knowPanelElements[0].innerHTML = 'Be In the Know';
+    knowPanelElements[1].innerHTML = 'Get relevant resources and tips delivered right to your inbox with customized emails from ETS.';
+    knowPanelElements[2].children[0].pathname = '/job-readiness/be-in-the-know';
+    aboutPanelElements[0].innerHTML = 'About';
+    aboutPanelElements[1].innerHTML = 'Find out more about ETS and our role within the workplace.';
+    aboutPanelElements[2].children[0].pathname = '/job-readiness/about';
+  } else {
+    knowPanelElements[0].innerHTML = data[0].categories;
+    knowPanelElements[1].innerHTML = data[0].summary;
+    knowPanelElements[2].children[0].pathname = data[0].link;
+    aboutPanelElements[0].innerHTML = data[1].categories;
+    aboutPanelElements[1].innerHTML = data[1].summary;
+    aboutPanelElements[2].children[0].pathname = data[1].link;
+  }
+};
+
+goFetch(articlesUrl, relatedUrl);
