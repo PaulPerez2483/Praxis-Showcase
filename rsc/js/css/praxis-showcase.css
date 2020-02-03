@@ -30,7 +30,7 @@ span.count {
     /* background-color: red; */
     font-size: 13px;
     position: absolute;
-    top: 104px;
+    top:  9px;
     margin-left: 1px;
 
 }
@@ -61,6 +61,7 @@ span.count {
 }
 .month-holder > ul > li{
     margin:0px 15px;
+    position: relative;
     
 }
 
@@ -79,6 +80,12 @@ span.count {
 
     div.mobile_only {
         margin-left: 15px;
+    }
+
+    form#categoryselect{
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: center;
     }
     
 }

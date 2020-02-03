@@ -78,7 +78,7 @@ const updatePanel = (data, pick) => {
     let knowPanelElements = [...knowPanel.children[0].children];
     let aboutPanelElements = [...aboutPanel.children[0].children]; 
 
-    if(pick === 'all') {
+    if (pick === 'all') {
         knowPanelElements[0].innerHTML = 'Be In the Know';
         knowPanelElements[1].innerHTML = 'Get relevant resources and tips delivered right to your inbox with customized emails from ETS.';
         knowPanelElements[2].children[0].pathname = '/job-readiness/be-in-the-know'
@@ -86,7 +86,7 @@ const updatePanel = (data, pick) => {
         aboutPanelElements[0].innerHTML = 'About';
         aboutPanelElements[1].innerHTML = 'Find out more about ETS and our role within the workplace.';
         aboutPanelElements[2].children[0].pathname = '/job-readiness/about';
-    }else{
+    }else {
         knowPanelElements[0].innerHTML = data[0].categories;
         knowPanelElements[1].innerHTML = data[0].summary;
         knowPanelElements[2].children[0].pathname = data[0].link;
@@ -103,41 +103,29 @@ const updateCalendar = (data) => {
     liButtons.forEach(button => {
         button.classList.remove('blue-link');
         button.nextSibling.innerHTML = ' ';
-        updateArticleCounter(data);
         button.disabled = true;
+        updateArticleCounter(data);
+        
         data.forEach(m => {
            
             if(button.textContent.includes(m.date.slice(0, m.date.indexOf(' ')))){
                 button.classList.add('blue-link');
-                if (button.classList.contains('blue-link')){
-
-                }else{ 
-                    button.nextSibling.innerHTML = ' '
-                };
-                
                 button.disabled = false;
                 button.addEventListener('click', (event)=>{
                     let currentMonth = event.target.textContent;
                     articleHolder.forEach(btn => {
-                       if(!btn.classList.contains(currentMonth)){
-                           btn.classList.add('hide');
-                       }else{
-                        btn.classList.remove('hide');
-                       }
+                       if(!btn.classList.contains(currentMonth)) ? btn.classList.add('hide') : btn.classList.remove('hide');
                     });
                 });
                 return
             }
-
         });
     });
     
 }
 
 const updateArticleCounter = (data) => {
-  
     let articleCounter = {};
-
     data.forEach(obj => {
      let month = obj.date.slice(0, obj.date.indexOf(' '));
      articleCounter.hasOwnProperty(month) ? articleCounter[month]++ : articleCounter[month] = 1;

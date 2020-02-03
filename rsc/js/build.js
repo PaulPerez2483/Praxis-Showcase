@@ -94,17 +94,11 @@ var updateCalendar = function updateCalendar(data) {
   liButtons.forEach(function (button) {
     button.classList.remove('blue-link');
     button.nextSibling.innerHTML = ' ';
-    updateArticleCounter(data);
     button.disabled = true;
+    updateArticleCounter(data);
     data.forEach(function (m) {
       if (button.textContent.includes(m.date.slice(0, m.date.indexOf(' ')))) {
         button.classList.add('blue-link');
-
-        if (button.classList.contains('blue-link')) {} else {
-          button.nextSibling.innerHTML = ' ';
-        }
-
-        ;
         button.disabled = false;
         button.addEventListener('click', function (event) {
           var currentMonth = event.target.textContent;
