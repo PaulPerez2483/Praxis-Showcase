@@ -110,7 +110,6 @@ var updateCalendar = function updateCalendar(data) {
             }
           });
         });
-        return;
       }
     });
   });

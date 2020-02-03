@@ -114,10 +114,12 @@ const updateCalendar = (data) => {
                 button.addEventListener('click', (event)=>{
                     let currentMonth = event.target.textContent;
                     articleHolder.forEach(btn => {
-                       if(!btn.classList.contains(currentMonth)) ? btn.classList.add('hide') : btn.classList.remove('hide');
+                       if(!btn.classList.contains(currentMonth)) {
+                        btn.classList.add('hide');
+                       } else {btn.classList.remove('hide');
+                    }
                     });
                 });
-                return
             }
         });
     });
