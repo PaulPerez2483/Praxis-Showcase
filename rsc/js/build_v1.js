@@ -12,7 +12,13 @@ var url = window.location.href;
 var articlesUrl = "".concat(url, "rsc/api/articles_db.json");
 var relatedUrl = "".concat(url, "rsc/api/related_db.json");
 var e = document.getElementById('categories');
-var readinessArticles = document.getElementById('job-readiness-articles'); // const liButtons = [...document.querySelectorAll('.month-holder > ul > li > button')];
+var readinessArticles = document.getElementById('job-readiness-articles');
+
+var liButtons = _toConsumableArray(document.querySelectorAll('.month-holder > ul > li > button'));
+
+var upAndDownArrows = _toConsumableArray(document.querySelectorAll('#sort-arrow > button'));
+
+console.log(upAndDownArrows);
 
 var goFetch = function goFetch(apiCompanies, apiProducts) {
   Promise.all([fetch(apiProducts), fetch(apiCompanies)]).then(function (response) {
@@ -22,7 +28,9 @@ var goFetch = function goFetch(apiCompanies, apiProducts) {
   }).then(function (data) {
     articles = data[1]['articles'];
     related = data[0]['related'];
-    renderHTML(articles);
+    renderHTML(articles); // updateCalendar(articles);
+
+    sortData();
   })["catch"](function (err) {
     return console.log(err);
   });
@@ -34,7 +42,6 @@ var renderHTML = function renderHTML(data) {
     return "<div data-date=\"".concat(Date.parse(article.date), "\" class=\"article-holder ").concat(month, "\">\n                <div class=\"mobile_only\">\n                    <div class=\"img\">\n                        <img src=\"./rsc/images/").concat(article.image, "\" alt=\"").concat(article.title, "\" >\n                    </div>\n                </div>\n                <div class=\"mobile_only\">\n                    <div class=\"category\">\n                        <p>").concat(article.categories, "</p>\n                    </div>\n\n                    <div class=\"article-date\">\n                        ").concat(article.date, "\n                    </div>\n\n                    <div class=\"desc\">\n                        <h2><a href=\"").concat(article.link, "\">").concat(article.title, "</a>\n                        </h2>\n                        <p>").concat(article.summary, "</p>\n                    </div>\n                </div>\n                </div>");
   }).join('');
   readinessArticles.innerHTML = html;
-  sortData();
 };
 
 e.addEventListener('change', function (event) {
@@ -49,20 +56,20 @@ e.addEventListener('change', function (event) {
 
   if (user === 'all') {
     renderHTML(articles);
+    updateCalendar(articles);
     updatePanel(processed.relation, user);
   } else {
     var articleData = processed.filter(function (article) {
       return article.category_id.includes(user);
     });
-    renderHTML(articleData);
+    renderHTML(articleData); // updateCalendar(articleData);
+
     updatePanel(processed.relation, user);
-    ;
+    sortData();
   }
 });
 
 var sortData = function sortData() {
-  var upAndDownArrows = _toConsumableArray(document.querySelectorAll('#sort-arrow > button'));
-
   var raw = _toConsumableArray(document.querySelectorAll('[data-date]'));
 
   upAndDownArrows.forEach(function (div) {
@@ -125,6 +132,50 @@ var updatePanel = function updatePanel(data, pick) {
     aboutPanelElements[1].innerHTML = data[1].summary;
     aboutPanelElements[2].children[0].pathname = data[1].link;
   }
+};
+
+var updateCalendar = function updateCalendar(data) {
+  var articleHolder = _toConsumableArray(document.querySelectorAll('.article-holder'));
+
+  liButtons.forEach(function (button) {
+    button.classList.remove('blue-link');
+    button.nextSibling.innerHTML = ' ';
+    button.disabled = true;
+    updateArticleCounter(data);
+    data.forEach(function (m) {
+      if (button.textContent.includes(m.date.slice(0, m.date.indexOf(' ')))) {
+        button.classList.add('blue-link');
+        button.disabled = false;
+        button.addEventListener('click', function (event) {
+          var currentMonth = event.target.textContent;
+          articleHolder.forEach(function (btn) {
+            if (!btn.classList.contains(currentMonth)) {
+              btn.classList.add('hide');
+            } else {
+              btn.classList.remove('hide');
+            }
+          });
+        });
+      }
+    });
+  });
+};
+
+var updateArticleCounter = function updateArticleCounter(data) {
+  var articleCounter = {};
+  data.forEach(function (obj) {
+    var month = obj.date.slice(0, obj.date.indexOf(' '));
+    articleCounter.hasOwnProperty(month) ? articleCounter[month]++ : articleCounter[month] = 1;
+  });
+  liButtons.forEach(function (li) {
+    var currentMonth = li.textContent;
+    var arr = Object.keys(articleCounter);
+
+    if (arr.includes(currentMonth)) {
+      console.dir(li.nextSibling.disabled = true);
+      li.nextSibling.textContent = "(".concat(articleCounter[currentMonth], ")");
+    }
+  });
 };
 
 goFetch(articlesUrl, relatedUrl);

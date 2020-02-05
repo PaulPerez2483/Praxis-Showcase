@@ -26,7 +26,7 @@
 <!--[if gt IE 8]><!--><html class="no-js" lang="en"><!--<![endif]-->
 	<head>
 		
-<title>Job Readiness: Achieving Success in the Workplace</title>
+<title>Praxis LinkedIn Showcase in the Workplace</title>
 		<meta charset="utf-8" />
 		<meta http-equiv="x-ua-compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -34,11 +34,11 @@
 		<meta name="keywords" content="achieve success in the workplace, job readiness news and trends, workforce readiness, job readiness, 21st century skills, noncognitive skills, ETS, research, achieving success in the workplace, workplace success, tips for workplace success, work readiness" />
         <!-- live -->
         <!-- 
-        <link rel="stylesheet" href="/rsc/css/base.min.css"> 
-        <script src="/rsc/fonts/fontawesome-pro-5.8.1-web/js/all.min.js"></script>
-        <link rel="stylesheet" href="/rsc/fonts/fontawesome-pro-5.8.1-web/css/all.min.css">
-        <link rel="stylesheet" href="/rsc/surveygizmo/ets-survey.css"> 
-        <link rel="stylesheet" type="text/css" href="/rsc/css/ets-job-readiness.min.css" >	
+        <link rel="stylesheet" href="/rsc/css/base.min.css"> -->
+        <script src="https://www.ets.org/rsc/fonts/fontawesome-pro-5.8.1-web/js/all.min.js"></script>
+        <link rel="stylesheet" href="https://www.ets.org/rsc/fonts/fontawesome-pro-5.8.1-web/css/all.min.css">
+        <!-- <link rel="stylesheet" href="/rsc/surveygizmo/ets-survey.css">  -->
+        <!-- <link rel="stylesheet" type="text/css" href="/rsc/css/ets-job-readiness.min.css" >	 -->
         -->
         <!-- qc -->
 		<link rel="stylesheet" href="https://www.ets.org/rsc/css/base.min.css">
@@ -425,7 +425,7 @@ Job Readiness Main Content
 
 
 				
-
+<div id="up-arrow"></div>
 
 
 
@@ -442,6 +442,7 @@ var main = document.getElementsByTagName('main')[0];
     var miscHeading = main.querySelector('.heading');
     miscHeading.innerHTML = '';
 </script>
+<div id="form-holder">
 <form id="categoryselect" action="" method=""><label for="categories">Filter posts by category:</label><select id="categories" name="categories" size="1">
 <option selected="selected" value="all">All</option>
 <option value="category_a">Screening Selection</option>
@@ -449,8 +450,19 @@ var main = document.getElementsByTagName('main')[0];
 <option value="category_c">Category 3</option>
 <!-- <option value="category_d">Category 4</option> -->
 </select></form>
+<div id="sort-arrow">
+	<button id="up-arrow" aria-selected="false">
+		<i class="fas fa-chevron-up" aria-hidden="true" ></i>
+		<span class="screen-reader-only">ascending button</span>
+	</button>
+	<button id="down-arrow" aria-selected="false">
+		<i class="fas fa-chevron-down"  aria-hidden="true"></i>
+		<span class="screen-reader-only">descending button</span>
+	</button>
+</div>
+</div>
 <div class="clearboth"></div>
-<div class="month-holder">
+<!--<div class="month-holder">
 	<ul>
 		<li><button type="button" disabled>January</button><span class="count"></span></li>
 		<li><button type="button" disabled>February</button type="button" disabled><span class="count"></span></li>
@@ -467,6 +479,7 @@ var main = document.getElementsByTagName('main')[0];
 		</ul>
 
 </div>
+-->
 <div class="wrap-outer wrap-flex" id="job-readiness-articles">
 	<div class="spinner_holder">
 	<div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>

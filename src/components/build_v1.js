@@ -5,8 +5,9 @@ const articlesUrl = `${url}rsc/api/articles_db.json`;
 const relatedUrl = `${url}rsc/api/related_db.json`;
 const e = document.getElementById('categories');
 const readinessArticles = document.getElementById('job-readiness-articles');
-// const liButtons = [...document.querySelectorAll('.month-holder > ul > li > button')];
-
+const liButtons = [...document.querySelectorAll('.month-holder > ul > li > button')];
+const upAndDownArrows = [...document.querySelectorAll('#sort-arrow > button')];
+console.log(upAndDownArrows)
 const goFetch = (apiCompanies, apiProducts) => {
     Promise.all([fetch(apiProducts), fetch(apiCompanies)])
     .then(response => Promise.all(response.map(result => result.json())))
@@ -16,6 +17,9 @@ const goFetch = (apiCompanies, apiProducts) => {
         related =  data[0]['related'];
         
         renderHTML(articles);
+        // updateCalendar(articles);
+        sortData();
+      
 
     }).catch(err => console.log(err))
 }
@@ -48,7 +52,6 @@ const renderHTML = (data) => {
     }).join('');
 
     readinessArticles.innerHTML = html;
-    sortData();
 
 }
 
@@ -59,18 +62,20 @@ e.addEventListener('change', (event)=> {
           processed.relation = related.filter(key => key.article_id.includes(user));
     if(user === 'all') {
         renderHTML(articles);
+        updateCalendar(articles);
         updatePanel(processed.relation, user);
         
     }else {
         const articleData =  processed.filter(article => article.category_id.includes(user));
         renderHTML(articleData);
-        updatePanel(processed.relation, user);;
+        // updateCalendar(articleData);
+        updatePanel(processed.relation, user);
+        sortData();
         
     }
 });
 
 const sortData = () => {
-    const upAndDownArrows = [...document.querySelectorAll('#sort-arrow > button')];
   const raw = [...document.querySelectorAll('[data-date]')];
 upAndDownArrows.forEach(div => {
     // console.log(div)
@@ -106,8 +111,8 @@ upAndDownArrows.forEach(div => {
                 //  console.log(descendingData)
           
             }
-        })
-})
+        });
+});
 }
 
 const updatePanel = (data, pick) => {
@@ -135,6 +140,52 @@ const updatePanel = (data, pick) => {
         aboutPanelElements[1].innerHTML = data[1].summary;
         aboutPanelElements[2].children[0].pathname = data[1].link;
     }
+}
+
+const updateCalendar = (data) => {
+    const articleHolder = [...document.querySelectorAll('.article-holder')];
+
+    liButtons.forEach(button => {
+        button.classList.remove('blue-link');
+        button.nextSibling.innerHTML = ' ';
+        button.disabled = true;
+        updateArticleCounter(data);
+        
+        data.forEach(m => {
+           
+            if(button.textContent.includes(m.date.slice(0, m.date.indexOf(' ')))){
+                button.classList.add('blue-link');
+                button.disabled = false;
+                button.addEventListener('click', (event)=>{
+                    let currentMonth = event.target.textContent;
+                    articleHolder.forEach(btn => {
+                       if(!btn.classList.contains(currentMonth)) {
+                        btn.classList.add('hide');
+                       } else {btn.classList.remove('hide');
+                    }
+                    });
+                });
+            }
+        });
+    });
+    
+}
+
+const updateArticleCounter = (data) => {
+    let articleCounter = {};
+    data.forEach(obj => {
+     let month = obj.date.slice(0, obj.date.indexOf(' '));
+     articleCounter.hasOwnProperty(month) ? articleCounter[month]++ : articleCounter[month] = 1;
+    });
+
+    liButtons.forEach(li=> {
+        let currentMonth = li.textContent;
+        let arr = Object.keys(articleCounter);
+        if(arr.includes(currentMonth)){
+        console.dir(li.nextSibling.disabled =true)
+        li.nextSibling.textContent = `(${articleCounter[currentMonth]})`
+        }
+    });
 }
 
 goFetch(articlesUrl, relatedUrl);
